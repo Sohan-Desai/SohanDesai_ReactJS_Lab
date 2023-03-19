@@ -34,6 +34,7 @@ const AddForm = ({ onTrue, onClose }: Props) => {
 
     const getProduct = (event: React.ChangeEvent<HTMLInputElement>) => {
         setProduct(event.target.value);
+        
     }
 
     const getPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
