@@ -104,6 +104,7 @@ const AddForm = ({ onTrue, onClose }: Props) => {
         if (validate()) {
             const data = await pushDataToServer(tempRecord);
             onTrue();
+            
         }
     }
 
