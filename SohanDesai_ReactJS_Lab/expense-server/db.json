@@ -120,39 +120,32 @@
       "id": 17
     },
     {
-      "payeeName": "Rahul",
-      "product": "qswde",
-      "price": 8,
-      "setDate": "2023-03-01",
-      "id": 18
-    },
-    {
-      "payeeName": "Ramesh",
-      "product": "test",
-      "price": 330,
-      "setDate": "2023-02-24",
-      "id": 19
-    },
-    {
-      "payeeName": "Ramesh",
-      "product": "test",
-      "price": 1234,
-      "setDate": "2023-02-20",
-      "id": 20
-    },
-    {
-      "payeeName": "Ramesh",
-      "product": "sample test data",
-      "price": 5000,
-      "setDate": "2023-02-22",
-      "id": 21
-    },
-    {
       "payeeName": "Ramesh",
       "product": "Medicines",
       "price": 3000,
       "setDate": "2023-02-26",
       "id": 22
+    },
+    {
+      "payeeName": "Rahul",
+      "product": "BlackWater",
+      "price": 202,
+      "setDate": "2023-03-19",
+      "id": 23
+    },
+    {
+      "payeeName": "Rahul",
+      "product": "Magic Water",
+      "price": 404,
+      "setDate": "2023-03-20",
+      "id": 24
+    },
+    {
+      "payeeName": "Rahul",
+      "product": "White Sand",
+      "price": 12,
+      "setDate": "2023-03-20",
+      "id": 25
     }
   ]
 }

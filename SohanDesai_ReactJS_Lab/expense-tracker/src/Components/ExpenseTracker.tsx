@@ -1,64 +1,49 @@
-import { ChangeEvent, Component, FormEvent } from "react";
-import { pushDataToServer } from "../services/Menu";
+import React, { useState } from 'react'
+import IDataList from '../models/IDataList'
+import { pushDataToServer } from '../services/Menu'
+import { useParams, useNavigate } from 'react-router-dom'
 
+type newRecord = Omit<IDataList, 'id'>
 type Props = {
-    onTrue: any;
-    onClose: any;
+    onTrue: () => void;
+    onClose: () => void;
 }
 
-type State = {
-    payeeName: string,
-    product: string,
-    price: string,
-    setDate: string
-}
+const AddForm = ({ onTrue, onClose }: Props) => {
 
-class ExpenseTracker extends Component<Props, State>{
+    const [payeeName, setPayeeName] = useState<string>('');
+    const [product, setProduct] = useState<string>('');
+    const [price, setPrice] = useState<number>(0);
+    const [date, setDate] = useState<string>(setDefaultDate);
 
-    constructor(props: Props) {
-        super(props)
+    const { url } = useParams();
+    const navigate = useNavigate();
 
-        this.state = {
-            payeeName: "",
-            product: "",
-            price: "0",
-            setDate: this.setDefaultDate()
-        }
+    let tempRecord: newRecord = {
+        payeeName: payeeName,
+        product: product,
+        price: price,
+        setDate: date
+    }
 
-        this.setPayee = this.setPayee.bind(this)
-        this.setProduct = this.setProduct.bind(this)
-        this.setPrice = this.setPrice.bind(this)
-        this.loggedDate = this.loggedDate.bind(this)
+    const getPayeeName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setPayeeName(event.target.value);
+    }
 
-    };
+    const getProduct = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setProduct(event.target.value);
+    }
 
-
-    setPayee = (event: ChangeEvent<HTMLSelectElement>) => {
-        this.setState({
-            payeeName: event.target.value
-        });
+    const getPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPrice(parseInt("0" + event.target.value));
     }
 
 
-    setProduct = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            product: event.target.value
-        });
+    const getDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDate(event.target.value);
     }
 
-    setPrice = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            price: event.target.value
-        });
-    }
-
-    loggedDate = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            setDate: event.target.value
-        });
-    }
-
-    setDefaultDate = () => {
+    function setDefaultDate() {
         const today = new Date();
         return (
             today.getFullYear() + "-"
@@ -67,60 +52,59 @@ class ExpenseTracker extends Component<Props, State>{
         );
     }
 
-    submitHandler = async (event: FormEvent<HTMLFormElement>) => {
-        event?.preventDefault();
-
-        const finalData = {
-            ...this.state
-        }
-
-        const data = await pushDataToServer(finalData);
-        this.props.onTrue();
+    const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const data = await pushDataToServer(tempRecord);
+        (url === 'add') ? navigate('/') : onTrue()
     }
 
-    render() {
-        const element = (
-            <>
-                <section>
-                    <header>
-                        <h1>Add New Item</h1>
-                        <p>
-                            Read the below instructions before proceeding:<br />
-                            Make sure to fill all the fields marked as *
-                        </p>
-                    </header>
-                    <form onSubmit={this.submitHandler}>
-                        <article>
-                            <p>Name</p>
-                            <select name="Name" id="district" value={this.state.payeeName} onChange={this.setPayee} required>
-                                <option value="" defaultChecked>Choose</option>
-                                <option value="Rahul">Rahul</option>
-                                <option value="Ramesh">Ramesh</option>
-                            </select>
-                        </article>
-                        <article>
-                            <p>Product Purchased</p>
-                            <input type="text" value={this.state.product} onChange={this.setProduct} required />
-                        </article>
-                        <article>
-                            <p>Price</p>
-                            <input type="text" value={this.state.price} onChange={this.setPrice} required />
-                        </article>
-                        <article>
-                            <p>Date</p>
-                            <input type="date" value={this.state.setDate} onChange={this.loggedDate} required />
-                        </article>
+    return (
+        <>
+            <section>
+                <header>
+                    <h1>Add New Item</h1>
+                    <p>
+                        Read the below instructions before proceeding:<br />
+                        Make sure to fill all the fields marked as *
+                    </p>
+                </header>
+                <form onSubmit={submitHandler}>
+                    <article>
+                        <p>Name</p>
+                        <select name="Name" value={payeeName} onChange={getPayeeName} required>
+                            <option value="" defaultChecked>Choose</option>
+                            <option value="Rahul">Rahul</option>
+                            <option value="Ramesh">Ramesh</option>
+                        </select>
+                    </article>
+                    <article>
+                        <p>Product Purchased</p>
+                        <input type="text" value={product} onChange={getProduct} required />
+                    </article>
+                    <article>
+                        <p>Price</p>
+                        <input type="number" value={price} onChange={getPrice} pattern=' /^\d+\.\d{0,2}$/' required />
+                    </article>
+                    <article>
+                        <p>Date</p>
+                        <input type="date" value={date} onChange={getDate} required />
+                    </article>
 
-                        <button type="button" className="form-button" onClick={this.props.onClose}>Close</button>
-                        <button type="submit" className="form-button">Submit</button>
-                    </form>
-                </section>
-            </>
-        );
+                    {(url === "add") ?
+                        (
+                            <button type="submit" className="form-button">Submit</button>
 
-        return element;
-    }
-
+                        ) : (
+                            <>
+                                <button type="button" className="form-button" onClick={onClose}>Close</button>
+                                <button type="submit" className="form-button">Submit</button>
+                            </>
+                        )
+                    }
+                </form>
+            </section>
+        </>
+    )
 }
 
-export default ExpenseTracker;
+export default AddForm;

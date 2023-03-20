@@ -1,7 +1,7 @@
 export default interface IDataList{
     payeeName: string,
     product: string,
-    price: string,
+    price: number,
     setDate:string,
     id: number
 }
