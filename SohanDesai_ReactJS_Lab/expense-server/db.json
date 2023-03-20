@@ -128,24 +128,10 @@
     },
     {
       "payeeName": "Rahul",
-      "product": "BlackWater",
-      "price": 202,
-      "setDate": "2023-03-19",
+      "product": "Repair Work",
+      "price": 505,
+      "setDate": "2023-03-10",
       "id": 23
-    },
-    {
-      "payeeName": "Rahul",
-      "product": "Magic Water",
-      "price": 404,
-      "setDate": "2023-03-20",
-      "id": 24
-    },
-    {
-      "payeeName": "Rahul",
-      "product": "White Sand",
-      "price": 12,
-      "setDate": "2023-03-20",
-      "id": 25
     }
   ]
 }
